@@ -188,7 +188,7 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
      */
     abstract protected function attemptAuthentication(Request $request);
 
-    private function onFailure(GetResponseEvent $event, Request $request, AuthenticationException $failed)
+    public function onFailure(GetResponseEvent $event, Request $request, AuthenticationException $failed)
     {
         if (null !== $this->logger) {
             $this->logger->info(sprintf('Authentication request failed: %s', $failed->getMessage()));
@@ -205,7 +205,7 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
         return $response;
     }
 
-    private function onSuccess(GetResponseEvent $event, Request $request, TokenInterface $token)
+    public function onSuccess(GetResponseEvent $event, Request $request, TokenInterface $token)
     {
         if (null !== $this->logger) {
             $this->logger->info(sprintf('User "%s" has been authenticated successfully', $token->getUsername()));
