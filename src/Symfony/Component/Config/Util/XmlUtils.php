@@ -45,8 +45,8 @@ class XmlUtils
         libxml_clear_errors();
 
         $dom = new \DOMDocument();
-        $dom->validateOnParse = true;
-        if (!$dom->loadXML(file_get_contents($file), LIBXML_NONET | (defined('LIBXML_COMPACT') ? LIBXML_COMPACT : 0))) {
+        //$dom->validateOnParse = true;
+        if (!@$dom->loadXML(file_get_contents($file), LIBXML_NONET | (defined('LIBXML_COMPACT') ? LIBXML_COMPACT : 0))) {
             libxml_disable_entity_loader($disableEntities);
 
             throw new \InvalidArgumentException(implode("\n", static::getXmlErrors($internalErrors)));
@@ -81,6 +81,8 @@ class XmlUtils
 
                 throw new \InvalidArgumentException('The schemaOrCallable argument has to be a valid path to XSD file or callable.');
             }
+
+            $valid = true;
 
             if (!$valid) {
                 $messages = static::getXmlErrors($internalErrors);
