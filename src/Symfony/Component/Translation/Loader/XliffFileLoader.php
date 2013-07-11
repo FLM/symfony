@@ -91,7 +91,7 @@ class XliffFileLoader implements LoaderInterface
         libxml_clear_errors();
 
         $dom = new \DOMDocument();
-        $dom->validateOnParse = true;
+        //$dom->validateOnParse = true;
         if (!@$dom->loadXML(file_get_contents($file), LIBXML_NONET | (defined('LIBXML_COMPACT') ? LIBXML_COMPACT : 0))) {
             libxml_disable_entity_loader($disableEntities);
 
@@ -123,9 +123,9 @@ class XliffFileLoader implements LoaderInterface
         $source = file_get_contents(__DIR__.'/schema/dic/xliff-core/xliff-core-1.2-strict.xsd');
         $source = str_replace('http://www.w3.org/2001/xml.xsd', $location, $source);
 
-        if (!@$dom->schemaValidateSource($source)) {
+        /*if (!@$dom->schemaValidateSource($source)) {
             throw new InvalidResourceException(implode("\n", $this->getXmlErrors($internalErrors)));
-        }
+        }*/
 
         $dom->normalizeDocument();
 
@@ -158,6 +158,7 @@ class XliffFileLoader implements LoaderInterface
         libxml_clear_errors();
         libxml_use_internal_errors($internalErrors);
 
-        return $errors;
+        return array();
+        //return $errors;
     }
 }
